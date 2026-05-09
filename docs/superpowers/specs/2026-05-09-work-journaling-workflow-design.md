@@ -122,6 +122,9 @@ No AI plugins in Phase 1. AI comes via Claude in Phase 2.
 ## Active tickets
 <Tasks query: tickets in progress>
 
+## Tickets done today
+<one bullet per ticket logged via "Log ticket done" — `[[ABC-123]] — one-line impression`>
+
 ## End of day
 - Worked on:
 - Status: [blocked / continuing tomorrow / done]
@@ -211,7 +214,7 @@ After 2 calendar weeks:
 - [ ] ≥ 60% of Linear tickets closed during these 2 weeks have a same-day log entry.
 - [ ] ≥ 1 decision file captured.
 
-If all three hit, Phase 2 is justified. If any miss, **debug the friction first** — don't add tech complexity. Likely root causes: rendezr the Shortcut more intrusive, simplify templates to 3 fields max, or accept that Linear isn't actually your source of truth (in which case Phase 2's Linear webhook design is moot).
+If all three hit, Phase 2 is justified. If any miss, **debug the friction first** — don't add tech complexity. Likely root causes: make the Shortcut more intrusive, simplify templates to 3 fields max, or accept that Linear isn't actually your source of truth (in which case Phase 2's Linear webhook design is moot).
 
 A 15-minute mini-retro at the end of week 2 shapes Phase 2 priorities.
 
@@ -242,11 +245,11 @@ fontsninja-journal-mcp/
 
 | Tool | Behavior | Writes |
 |---|---|---|
-| `start_ticket` | Creates `Tickets/<id>.md` with frontmatter; fetches title from Linear API | `Tickets/<id>.md` |
-| `log_ticket_done` | Appends impressions + decisions to ticket file; flips frontmatter `status: done`; appends a line to today's daily | `Tickets/<id>.md`, `Daily/<today>.md` |
+| `start_ticket` | Creates `Tickets/<id>.md` with frontmatter; fetches title from Linear API. Idempotent: if file already exists (e.g., created manually in Phase 1), only fills missing frontmatter fields and the `<title>` placeholder — never overwrites human content | `Tickets/<id>.md` |
+| `log_ticket_done` | Appends impressions + decisions to ticket file; flips frontmatter `status: done`; appends a bullet to the daily's `## Tickets done today` section | `Tickets/<id>.md`, `Daily/<today>.md` |
 | `log_idea` | Creates a timestamped idea file | `Ideas/<datetime>.md` |
 | `log_decision` | Creates a decision file with options/choice/why; links back to current ticket | `Decisions/<date>-<slug>.md` |
-| `daily_briefing` | Reads yesterday's daily and active tickets; returns today's standup script | (read-only) |
+| `daily_briefing` | Reads yesterday's daily and active tickets; returns today's standup script (does **not** rewrite the daily file — Templater still does the file-level "Yesterday" pre-fill; this tool is the conversational layer for Claude) | (read-only) |
 | `end_of_day` | Prompts for "worked on / status / tomorrow's goal"; writes to today's daily | `Daily/<today>.md` |
 
 Storage is still markdown files in the vault. Deleting the MCP server leaves the vault fully usable — that is the contract.
