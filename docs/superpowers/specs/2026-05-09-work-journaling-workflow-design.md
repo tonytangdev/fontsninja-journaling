@@ -308,5 +308,8 @@ Each item below requires its own brainstorm + design pass. No drift.
 
 ## Open questions
 
-- Should the design doc live inside the vault (current location) or in a sibling repo? Decision deferred — first commit lands here; can be moved later if Obsidian indexing of `docs/` becomes noisy.
 - Default Linear team / project filter for the polling query? To be set when Linear API token is provisioned.
+
+## Resolved decisions
+
+- **Spec location.** Specs live at `docs/` inside the same repo as the vault. Obsidian is configured to exclude `docs/` from indexing via `.obsidian/app.json` `userIgnoreFilters`. One repo, one history, no Obsidian noise.
