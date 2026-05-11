@@ -1,6 +1,6 @@
-# Phase 1 retro — 2026-05-25
+# Phase 1 retro — 2026-05-26
 
-Cut-off date: 2026-05-25 (2 weeks after 2026-05-11).
+Cut-off date: 2026-05-26 (Pentecost Monday 2026-05-25 is a holiday — pushed one day).
 Time-box: 15 minutes.
 
 ## Success criteria (from the spec)
