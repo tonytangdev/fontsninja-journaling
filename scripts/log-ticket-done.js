@@ -34,7 +34,12 @@ started: ${today}
 ## Impressions / friction
 ## Done / Tomorrow
 `;
-    ticketFile = await app.vault.create(ticketPath, seed);
+    try {
+      ticketFile = await app.vault.create(ticketPath, seed);
+    } catch (e) {
+      new Notice(`Could not create ${ticketId}: ${e.message}`);
+      return;
+    }
   }
 
   // 2. Read, mutate, write the ticket file:
@@ -45,7 +50,7 @@ started: ${today}
   content = content.replace(/^status:\s*in_progress\s*$/m, "status: done");
   content = content.replace(/^- \[ \] In progress\s*$/m, "- [x] In progress");
 
-  const impressionLine = `\n- ${today} ${now}: ${impressions}`;
+  const impressionLine = `\n- ${today} ${now}: ${(impressions || "").split("\n").join("\n  ")}`;
   content = content.replace(/(##\s*Impressions \/ friction)/, `$1${impressionLine}`);
 
   if (keyDecision && keyDecision.trim()) {

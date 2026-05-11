@@ -35,6 +35,10 @@ ${titleLine}
 ## Done / Tomorrow
 `;
 
-  const file = await app.vault.create(path, content);
-  await app.workspace.openLinkText(file.path, "", false);
+  try {
+    const file = await app.vault.create(path, content);
+    await app.workspace.openLinkText(file.path, "", false);
+  } catch (e) {
+    new Notice(`Could not create ${ticketId}: ${e.message}`);
+  }
 };
