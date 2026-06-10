@@ -111,11 +111,14 @@ For bullets already present with an empty title (`- [[DEV-####]] — ` with noth
 
 ### 6. Backfill or create `Tickets/DEV-####.md`
 
-For each ticket:
+**Skip US tickets.** A ticket whose title starts with the `US -` prefix (a user-story umbrella, e.g. "US - Signer l'exécutable et l'installeur Windows") must **not** get a `Tickets/` file — neither created nor backfilled. Every ticket file carries an unchecked `- [ ] In progress` task, so a US file would show up in the daily file's `## Active tickets` query; but US tickets are umbrellas whose real work lives in their sub-tickets (which get their own files). US tickets are still referenced via `[[DEV-####]]` wikilinks in `## Tickets done today` and `## End of day` (steps 5 and 7) — a wikilink alone doesn't create a file, so it stays out of the active list.
+
+For each non-US ticket:
 
 - **If the file exists**, fill in only the empties:
   - Frontmatter `linear_url:` → set to the ticket URL if currently blank.
   - H1 heading `# DEV-#### — ` → fill the title if currently blank. Normalize separator to ` — ` (space, em-dash, space).
+  - Task checkbox: if the ticket is `completed` in Linear, set `status: done` and tick the box to `- [x] In progress`. If it's still open, leave `- [ ] In progress` unchecked. Never untick a box that's already checked.
   - **Do not touch** `## Context`, `## Decisions made`, `## Impressions / friction`, `## Done / Tomorrow` — these are the user's journaling space.
 
 - **If the file doesn't exist**, create it from `Templates/ticket.md`. Replace the template's Templater syntax:
@@ -124,6 +127,7 @@ For each ticket:
   - `<title>` placeholder in the H1 → the ticket title from Linear
   - Set frontmatter `linear_url:` to the ticket URL
   - Set frontmatter `status:` based on `state.type`: `done` if `completed`, `in_progress` otherwise.
+  - Task checkbox: keep `- [ ] In progress` unchecked for `in_progress`; write it as `- [x] In progress` (ticked) when `status: done`. The `## Active tickets` query lists every unchecked task under `Tickets/`, so a done ticket must be ticked to stay out of the active list.
 
 ### 7. Write the `## End of day` section
 
